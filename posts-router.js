@@ -45,4 +45,18 @@ router.post('/', async(req, res) => {
   }
 });
 
+router.delete('/:id', async(req,res) => {
+  try {
+    const delId = req.params.id;
+    numDeleted = await db.remove(delId);
+    if (numDeleted < 1) {
+      res.status(404).json({ message: "The post with the specified ID does not exist." });
+    } else {
+      res.status(200).json({ message: `Successfully deleted post id: ${delId}`});
+    }
+  } catch {
+    res.status(500).json({ error: "The post could not be removed" });
+  }
+});
+
 module.exports = router;
