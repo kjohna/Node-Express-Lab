@@ -39,7 +39,8 @@ class App extends Component {
       .catch(err => console.log(err));
   }
 
-  addPost() {
+  addPost = (e) => {
+    e.preventDefault();
     const postFormData = {
       title: this.state.title,
       contents: this.state.contents
@@ -47,7 +48,10 @@ class App extends Component {
     axios.post('http://localhost:4001/api/posts', postFormData)
       .then(res => {
         // console.log(res.data.message);
-        this.setState({ posts: res.data.message });
+        this.setState({ 
+          posts: res.data.message,
+          ...emptyCommentForm
+        });
       })
       .catch(err => {
         console.log(`error addComment: ${err}`);
@@ -110,7 +114,7 @@ class App extends Component {
               textAlign: "left"
             }}
           >
-            <form>
+            <form onSubmit={this.addPost}>
               <TextField
                 variant="outlined"
                 label="Title"
@@ -129,9 +133,7 @@ class App extends Component {
                 autoComplete="off"
                 style={{ width: '100%', paddingBottom: "15px" }}
               />
-              <Button
-                onClick={() => this.addPost()}
-              >Add Post</Button>
+              <Button type="submit">Add Post</Button>
             </form>
           </Card>
         </Grid>
