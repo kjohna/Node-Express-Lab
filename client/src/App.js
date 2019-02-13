@@ -54,6 +54,17 @@ class App extends Component {
       })
   }
 
+  deletePost(id) {
+    console.log("delete post: ", id);
+    axios.delete(`http://localhost:4001/api/posts/${id}`)
+      .then(res => {
+        this.getComments();
+      })
+      .catch( err => {
+        console.log(`error deletePost id ${id}. Err: ${err}`);
+      })
+  }
+
   componentDidMount() {
     this.getComments();
   }
@@ -73,6 +84,9 @@ class App extends Component {
           <Typography variant="h5">Post ID: {post.id}</Typography>
           <Typography variant="body1">{post.title}</Typography>
           <Typography variant="body2">{post.contents}</Typography>
+          <Button
+            onClick={() => this.deletePost(post.id)}
+          >Delete Post</Button>
         </Card>
       );
     });
