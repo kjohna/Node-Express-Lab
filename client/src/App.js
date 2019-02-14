@@ -29,7 +29,7 @@ class App extends Component {
   }
 
   getComments() {
-    axios.get('http://localhost:4001/api/posts')
+    axios.get('/api/posts')
       .then(res => {
         console.log(res.data);
         this.setState({
@@ -45,7 +45,7 @@ class App extends Component {
       title: this.state.title,
       contents: this.state.contents
     }
-    axios.post('http://localhost:4001/api/posts', postFormData)
+    axios.post('/api/posts', postFormData)
       .then(res => {
         // console.log(res.data.message);
         this.setState({ 
@@ -60,7 +60,7 @@ class App extends Component {
 
   deletePost(id) {
     console.log("delete post: ", id);
-    axios.delete(`http://localhost:4001/api/posts/${id}`)
+    axios.delete(`/api/posts/${id}`)
       .then(res => {
         this.getComments();
       })
