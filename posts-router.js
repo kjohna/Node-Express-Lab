@@ -38,7 +38,14 @@ router.post('/', async(req, res) => {
       res.status(400).json({ errorMessage: "Please provide title and contents for the post." });
     } else {
       newId = await db.insert(postData);
-      res.status(201).json({ message: `Successfully created post id: ${newId.id}`});
+      try {
+        const updatedPosts = await db.find();
+        res.status(200).json({ 
+          message: updatedPosts });
+      } catch {
+        res.status(500).json({ error: "Error fetching updated post." });
+      }
+      // res.status(201).json({ message: `Successfully created post id: ${newId.id}`});
     }
   } catch {
     res.status(500).json({ error: "There was an error while saving the post to the database" });
